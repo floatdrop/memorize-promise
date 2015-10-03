@@ -1,0 +1,37 @@
+{
+  "name": "memorize-promise",
+  "version": "0.0.0",
+  "description": "My funkadelic module",
+  "license": "MIT",
+  "repository": "floatdrop/memorize-promise",
+  "author": {
+    "name": "Vsevolod Strukchinsky",
+    "email": "floatdrop@gmail.com",
+    "url": "github.com/floatdrop"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && tap test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    ""
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^0.2.0",
+    "pinkie-promise": "^1.0.0",
+    "tap": "^2.0.0",
+    "xo": "^0.9.0"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha"
+    ]
+  }
+}
