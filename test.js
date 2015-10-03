@@ -6,7 +6,7 @@ var PinkiePromise = require('pinkie-promise');
 test('throws without factory function', function (t) {
 	t.throws(function () {
 		memorizePromise();
-	});
+	}, /func must be a function, not a undefined/);
 	t.end();
 });
 

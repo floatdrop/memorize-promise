@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (func, opts) {
 	if (typeof func !== 'function') {
-		throw new TypeError('func must be a functionm, not a ' + typeof func);
+		throw new TypeError('func must be a function, not a ' + typeof func);
 	}
 
 	opts = opts || {};
