@@ -9,6 +9,7 @@ module.exports = function (func, opts) {
 	var cache = func();
 	var updateInterval = opts.updateInterval || 5000;
 	var stop = false;
+	var timeout;
 
 	function updateLoop() {
 		var promise = func();
@@ -21,7 +22,7 @@ module.exports = function (func, opts) {
 
 	function setupUpdate() {
 		if (updateInterval && !stop) {
-			setTimeout(updateLoop, updateInterval);
+			timeout = setTimeout(updateLoop, updateInterval);
 		}
 	}
 
@@ -36,6 +37,7 @@ module.exports = function (func, opts) {
 		},
 		stop: function () {
 			stop = true;
+			clearTimeout(timeout);
 		}
 	};
 };
