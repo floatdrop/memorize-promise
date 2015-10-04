@@ -64,10 +64,28 @@ test('dies after inactivity', function (t) {
 		return new PinkiePromise(function (resolve) {
 			resolve(calls++);
 		});
-	}, {updateInterval: 1, ttl: 5});
+	}, {updateInterval: 15, ttl: 1});
 
 	setTimeout(function () {
-		t.equal(calls, 4);
+		t.equal(calls, 2);
 		t.end();
 	}, 15);
+});
+
+test('resumes after .then hit', function (t) {
+	var calls = 0;
+	var cache = memorizePromise(function () {
+		return new PinkiePromise(function (resolve) {
+			resolve(calls++);
+		});
+	}, {updateInterval: 10, ttl: 5});
+
+	setTimeout(function () {
+		cache.then(function () {});
+	}, 25);
+
+	setTimeout(function () {
+		t.equal(calls, 3);
+		t.end();
+	}, 50);
 });

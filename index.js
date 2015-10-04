@@ -13,6 +13,7 @@ module.exports = function (func, opts) {
 	var start = Date.now();
 
 	function updateLoop() {
+		timeout = undefined;
 		var promise = func();
 		promise
 			.then(function () {
@@ -22,7 +23,7 @@ module.exports = function (func, opts) {
 	}
 
 	function setupUpdate() {
-		if (updateInterval && (Date.now() - start < ttl)) {
+		if (!timeout && updateInterval && (Date.now() - start < ttl)) {
 			timeout = setTimeout(updateLoop, updateInterval);
 		}
 	}
@@ -32,6 +33,7 @@ module.exports = function (func, opts) {
 	return {
 		then: function (resolve, reject) {
 			start = Date.now();
+			setupUpdate();
 			return cache.then(resolve, reject);
 		},
 		catch: function (handle) {
