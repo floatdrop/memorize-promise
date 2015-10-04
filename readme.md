@@ -49,6 +49,13 @@ Default: `5000`
 
 Update interval in milliseconds.
 
+##### ttl
+
+Type: `Number`  
+Default: `60000`
+
+Lifetime of update timeout after last hit.
+
 
 ## License
 

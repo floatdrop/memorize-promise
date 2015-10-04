@@ -57,3 +57,17 @@ test('works with disabled updateInterval', function (t) {
 		});
 	}, 15);
 });
+
+test('dies after inactivity', function (t) {
+	var calls = 0;
+	memorizePromise(function () {
+		return new PinkiePromise(function (resolve) {
+			resolve(calls++);
+		});
+	}, {updateInterval: 1, ttl: 5});
+
+	setTimeout(function () {
+		t.equal(calls, 4);
+		t.end();
+	}, 15);
+});
