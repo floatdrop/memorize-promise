@@ -60,11 +60,15 @@ test('works with disabled updateInterval', function (t) {
 
 test('dies after inactivity', function (t) {
 	var calls = 0;
-	memorizePromise(function () {
+	var cache = memorizePromise(function () {
 		return new PinkiePromise(function (resolve) {
 			resolve(calls++);
 		});
 	}, {updateInterval: 15, ttl: 1});
+
+	cache.then(function (n) {
+		t.is(n, 0);
+	});
 
 	setTimeout(function () {
 		t.equal(calls, 2);
@@ -80,8 +84,13 @@ test('resumes after .then hit', function (t) {
 		});
 	}, {updateInterval: 10, ttl: 5});
 
+	cache.then(function (n) {
+		t.is(n, 0);
+	});
+
 	setTimeout(function () {
-		cache.then(function () {});
+		t.equal(calls, 2);
+		t.end();
 	}, 25);
 
 	setTimeout(function () {

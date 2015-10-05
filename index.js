@@ -6,14 +6,15 @@ module.exports = function (func, opts) {
 
 	opts = opts || {};
 
-	var cache = func();
 	var updateInterval = opts.updateInterval || 5000;
-	var timeout;
 	var ttl = opts.ttl || 60000;
-	var start = Date.now();
+	var cache;
+	var timeout;
+	var lastHit;
 
 	function updateLoop() {
 		timeout = undefined;
+
 		var promise = func();
 		promise
 			.then(function () {
@@ -23,16 +24,23 @@ module.exports = function (func, opts) {
 	}
 
 	function setupUpdate() {
-		if (!timeout && updateInterval && (Date.now() - start < ttl)) {
+		if (Date.now() - lastHit >= ttl) {
+			cache = undefined;
+			return;
+		}
+
+		if (!cache) {
+			cache = func();
+		}
+
+		if (!timeout && updateInterval) {
 			timeout = setTimeout(updateLoop, updateInterval);
 		}
 	}
 
-	setupUpdate();
-
 	return {
 		then: function (resolve, reject) {
-			start = Date.now();
+			lastHit = Date.now();
 			setupUpdate();
 			return cache.then(resolve, reject);
 		},
